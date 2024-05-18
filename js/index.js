@@ -1,33 +1,45 @@
-//create a fetch for githun repos
-fetch("https://api.github.com/users/lemonadelightice/repos")
- .then((response) => {
-    if (response.ok) {
-      return response.text();
-      } else {
-        throw new Error("Failed to fetch repositories");
-      }
+const coffeeContainer = document.getElementById("coffeeContainer");
+const fetchCoffeeButton = document.getElementById("fetch-coffee");
+
+fetchCoffeeButton.addEventListener("click", () =>{
+
+    fetch("https://api.sampleapis.com/coffee/hot")
+    .then((res) => {
+        console.log(res);
+        if (!res.ok) {
+            throw new Error("Invalid Request");
+        }
+        return res.json();
     })
-  .then((data) => {
-    const repositories = JSON.parse(data);
-    console.log(repositories);
- 
-  //DOM to select Projects section by ID
-  const projectSection = document.getElementById("projects");
+    .then((data) => {
+        //Select new coffee beverage each time button is clicked
+        const randomIndex = Math.floor(Math.random() * data.length);
+        const selectCoffee = data[randomIndex];
 
-  //Create ul in projects section
-  let projectList = document.createElement("ul");
-  projectSection.appendChild(projectList);
+        console.log(data);
+        const drinkTitle = selectCoffee.title;
+        const drinkName = document.createElement("h2");
+        drinkName.innerText = drinkTitle;
+        coffeeContainer.appendChild(drinkName);
 
-  for (let repository of repositories) {
-    let project = document.createElement("li");
-    project.innerText = repository.name;
-    projectList.appendChild(project);
-  }
+        console.log(data);
+        const drinkDetails = selectCoffee.description;
+        const ingredients = document.createElement("h3");
+        ingredients.innerText = drinkDetails;
+        
+
+        console.log(data);
+        const drinkImageUrl = selectCoffee.image;
+        const coffeePic = document.createElement("img");
+        coffeePic.src = drinkImageUrl;
+        coffeeContainer.appendChild(coffeePic);
+        coffeeContainer.appendChild(ingredients);
+        
+    }).catch((err) => {
+        console.warn(err);
+    });
+
 })
- .catch((error) => {
-    if (error instanceof SyntaxError) {
-        console.error("Unparsable response from server");
-    } else {
-        console.error("Error fetching data: ", error.message);
-    }
-});
+
+console.log(coffeeContainer);
+
