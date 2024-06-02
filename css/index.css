@@ -1,0 +1,15 @@
+html, body {
+    height: 100%;
+    width: 100%;
+}
+
+body {
+    background-color: rgb(223, 207, 173);
+    color:rgb(94, 74, 9)
+    
+}
+
+img {
+    max-height: 15rem;
+    min-width: 12rem;
+}
